@@ -1,0 +1,45 @@
+.artists-list-component {
+  padding-top: 30px;
+}
+
+.artist-info {
+  width: 230px;
+  height: 300px;
+  margin: auto;
+  box-shadow: 0 0 13px 1px #343a40;
+}
+
+.image-section {
+  width: inherit;
+  height: 160px;
+  text-align: center;
+}
+
+.image-section img {
+  width: inherit;
+  height: inherit;
+}
+
+.name-description-section {
+  width: inherit;
+  height: 100px;
+  background-color: white;
+  padding: 10px;
+}
+
+.rate-section {
+  width: inherit;
+  height: 40px;
+  background-color: ghostwhite;
+}
+
+.artist-name {
+  color: darkslategray;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.artist-followers {
+  color: lightslategray;
+  font-size: 10px;
+}

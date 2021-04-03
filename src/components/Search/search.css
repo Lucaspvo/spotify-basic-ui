@@ -1,0 +1,12 @@
+.search-component {
+  min-height: inherit;
+}
+
+.min-height {
+  min-height: inherit;
+}
+
+.padding {
+  padding-top: 30px;
+  padding-bottom: 30px;
+}

@@ -1,0 +1,26 @@
+.search-text-input {
+  box-shadow: 0 0 15px -4px grey;
+  background-color: white;
+  border-radius: 0.75rem;
+  border: 1px solid #343a40;
+}
+
+.search-text-input input {
+  width: 450px;
+  height: 70px;
+  font-size: 25px !important;
+  border-radius: 0.75rem;
+  border: 0;
+}
+
+.search-text-input input:focus {
+  outline:none !important;
+  box-shadow: none !important;
+}
+
+.search-text-input .input-group-text {
+  border-radius: 0.75rem;
+  background-color: white;
+  font-size: 25px;
+  border: 0px;
+}

@@ -1,0 +1,17 @@
+.login-btn {
+  width: 450px;
+  height: 70px;
+  font-size: 25px !important;
+  box-shadow: 0 0 15px -4px grey;
+  border-radius: 0.75rem !important;
+  background-color: white !important;
+}
+
+.login-btn:hover {
+  background-color: #343a40 !important;
+}
+
+.login-btn .fa-spotify {
+  float: right;
+  font-size: 32px;
+}

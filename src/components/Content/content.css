@@ -1,0 +1,4 @@
+.spotify-content-component {
+  min-height: calc(100vh - 50px);
+  background-color: #e5e9ec;
+}
