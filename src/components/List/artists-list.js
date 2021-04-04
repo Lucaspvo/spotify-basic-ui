@@ -1,11 +1,12 @@
 import React from 'react';
 import './artists-list.css';
-import { isArray } from 'lodash';
+import { isArray, isEqual } from 'lodash';
 import StarRatings from 'react-star-ratings';
 import { withRouter} from "react-router";
 import Button from 'react-bootstrap/Button';
 import queryString from "query-string";
 import { connect } from 'react-redux';
+import Spinner from "react-bootstrap/Spinner";
 
 function mapStateToProps(state) {
   return {
@@ -17,17 +18,32 @@ class ArtistsList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      prevArtistsList: props.artists.items,
       artistsList: props.artists.items,
       offset: props.artists.offset + props.artists.limit,
       limit: props.artists.limit,
       total: props.artists.total,
+      loading: false,
     };
   }
 
-  componentWillMount() {
-    if (!this.props.token) {
-      this.props.history.push('/login');
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (!nextProps.token) {
+      nextProps.history.push('/login');
+      return null;
     }
+
+    if (!isEqual(nextProps.artists.items, prevState.prevArtistsList)) {
+      return {
+        prevArtistsList: nextProps.artists.items,
+        artistsList: nextProps.artists.items,
+        offset: nextProps.artists.offset + nextProps.artists.limit,
+        limit: nextProps.artists.limit,
+        total: nextProps.artists.total,
+      };
+    }
+
+    return null;
   }
 
   getInlineStylingBackgroundImage(artist) {
@@ -73,9 +89,8 @@ class ArtistsList extends React.Component {
         artistsList: [...this.state.artistsList.concat(json.artists.items)],
         limit: json.artists.limit,
         offset: this.state.offset + json.artists.offset,
+        loading: false,
       });
-
-      console.log(json);
     }  else if (response.status === 401) {
       this.props.history.push('/login');
     }
@@ -132,15 +147,28 @@ class ArtistsList extends React.Component {
     }
 
     if (this.state.offset < this.state.total) {
+      let buttonLabel;
+
+      if (!this.state.loading) {
+        buttonLabel = 'Load More Artists';
+      } else {
+        buttonLabel = <Spinner animation="border" />;
+      }
+
       button = (
         <div className="row">
           <div className="load-artists-btn-wrapper col-md-12">
             <Button
-              onClick={() => this.loadMoreArtists()}
+              onClick={() => {
+                this.setState({
+                  loading: true,
+                }, this.loadMoreArtists);
+              }}
               className="load-artists-btn"
               variant="dark"
+              disabled={this.state.loading}
             >
-              Load More Artists
+              { buttonLabel }
             </Button>
           </div>
         </div>

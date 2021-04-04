@@ -9,6 +9,10 @@
   box-shadow: 0 0 15px -3px #343a40;
 }
 
+.album-info a {
+  text-decoration: none !important;
+}
+
 .image-section {
   width: inherit;
   height: 160px;
@@ -27,13 +31,30 @@
   padding: 10px;
 }
 
-.rate-section {
+.preview-album {
   width: inherit;
   height: 40px;
   background-color: ghostwhite;
   display: flex;
   align-items: center;
-  padding-left: 10px;
+  justify-content: center;
+}
+
+.preview-album:hover {
+  background-color: #595959;
+}
+
+.preview-album:hover span {
+  color: white;
+}
+
+.preview-album span {
+  font-size: 15px;
+  color: dimgray;
+}
+
+.preview-album span:hover {
+  color: white;
 }
 
 .album-name {
@@ -45,12 +66,16 @@
   height: 30px;
   overflow: hidden;
   white-space: nowrap;
-  overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .artists-names {
-  margin-bottom: 20px;
+  margin-bottom: 15px;
+  height: 20px;
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .artists-names,

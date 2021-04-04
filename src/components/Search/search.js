@@ -7,10 +7,17 @@ import queryString from 'query-string';
 import SearchTextInput from './search-text-input.js';
 import ArtistsList from '../List/artists-list.js';
 import ArtistAlbumsList from '../List/artist-albums-list.js';
+import { changeNavTitle } from '../../actions/navTitle.js';
 
 function mapStateToProps(state) {
   return {
     token: state.auth.token,
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    changeNavTitle: title => dispatch(changeNavTitle(title)),
   }
 }
 
@@ -35,6 +42,7 @@ async function fetchArtistsFromSpotify(artist) {
     if (artists.artists.items) {
       this.setState({
         artists: artists.artists,
+        loading: false,
       });
     }
   } else if (response.status === 401) {
@@ -49,15 +57,19 @@ class Search extends React.Component {
       searchInput: '',
       artists: null,
       artist: null,
+      loading: false,
     };
 
     this.fetchArtists = debounce(fetchArtistsFromSpotify.bind(this), 1000);
+    props.changeNavTitle('Search Artist');
   }
 
-  componentWillMount() {
-    if (!this.props.token) {
-      this.props.history.push('/login');
+  static getDerivedStateFromProps(nextProps) {
+    if (!nextProps.token) {
+      nextProps.history.push('/login');
     }
+
+    return null;
   }
 
   getSearchInputWrapperClasses() {
@@ -89,11 +101,13 @@ class Search extends React.Component {
 
   onChange(event) {
     if (event.target.value) {
-      this.setState({
-        searchInput: event.target.value,
-      });
-
-      this.fetchArtists(event.target.value);
+      this.setState(
+        {
+          searchInput: event.target.value,
+          loading: true,
+        },
+      () => this.fetchArtists(event.target.value)
+      );
     } else {
       this.setState({
         searchInput: null,
@@ -135,6 +149,7 @@ class Search extends React.Component {
                 <SearchTextInput
                   searchInput={this.state.searchInput}
                   onChange={this.onChange.bind(this)}
+                  loading={this.state.loading}
                 />
               </div>
 
@@ -152,4 +167,4 @@ class Search extends React.Component {
   }
 }
 
-export default withRouter(connect(mapStateToProps)(Search));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Search));
