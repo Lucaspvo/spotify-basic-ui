@@ -1,11 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from "react-router";
+import {Route, Switch, withRouter} from "react-router";
 import './search.css';
 import { debounce } from 'lodash';
 import queryString from 'query-string';
 import SearchTextInput from './search-text-input.js';
 import ArtistsList from '../List/artists-list.js';
+import ArtistAlbumsList from '../List/artist-albums-list.js';
 
 function mapStateToProps(state) {
   return {
@@ -31,10 +32,9 @@ async function fetchArtistsFromSpotify(artist) {
 
   if (response.ok) {
     const artists = await response.json();
-    console.log(artists.artists);
     if (artists.artists.items) {
       this.setState({
-        artists: artists.artists.items,
+        artists: artists.artists,
       });
     }
   } else if (response.status === 401) {
@@ -48,9 +48,10 @@ class Search extends React.Component {
     this.state = {
       searchInput: '',
       artists: null,
+      artist: null,
     };
 
-    this.fetchArtists = debounce(fetchArtistsFromSpotify, 1000);
+    this.fetchArtists = debounce(fetchArtistsFromSpotify.bind(this), 1000);
   }
 
   componentWillMount() {
@@ -100,25 +101,52 @@ class Search extends React.Component {
     }
   }
 
+  redirectToArtistAlbums(artist) {
+    this.setState(
+    {
+        artist,
+      },
+    () => this.props.history.push(
+        `/search/${artist.name.toLowerCase().replace(' ', '_')}/albums`
+      )
+    );
+  }
+
   render() {
     let artistsList;
-    if (this.state.searchInput) {
-      artistsList = <ArtistsList artists={this.state.artists}/>;
+    if (this.state.searchInput && this.state.artists) {
+      artistsList = (
+        <ArtistsList
+          query={this.state.searchInput}
+          artists={this.state.artists}
+          redirectToArtistAlbums={this.redirectToArtistAlbums.bind(this)}
+        />
+      );
     }
 
     return (
       <div className={this.getSearchComponentWrapperClasses()}>
-        <div className={this.getSearchInputRowClasses()}>
-          <div className="col-md-3"/>
-          <div className={this.getSearchInputWrapperClasses()}>
-            <SearchTextInput
-              searchInput={this.state.searchInput}
-              onChange={this.onChange.bind(this)}
-            />
-          </div>
-          <div className="col-md-3"/>
-        </div>
-        { artistsList }
+        <Switch>
+          <Route path={'/search/artists'}>
+            <div className={this.getSearchInputRowClasses()}>
+              <div className="col-md-3"/>
+
+              <div className={this.getSearchInputWrapperClasses()}>
+                <SearchTextInput
+                  searchInput={this.state.searchInput}
+                  onChange={this.onChange.bind(this)}
+                />
+              </div>
+
+              <div className="col-md-3"/>
+            </div>
+
+            { artistsList }
+          </Route>
+          <Route path={'/search/:artist/albums'}>
+            <ArtistAlbumsList artist={this.state.artist}/>
+          </Route>
+        </Switch>
       </div>
     );
   }

@@ -3,17 +3,20 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './components/App';
 
-import { createStore } from 'redux';
 import { Provider } from 'react-redux';
-import reducers from './index-reducers.js';
 
-const store = createStore(reducers);
+import { ConnectedRouter } from 'connected-react-router/immutable'
+import configureStore, { history } from './configure-store'
+
+const store = configureStore({});
 
 ReactDOM.render(
   <Provider store={store}>
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
+    <ConnectedRouter history={history}>
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>
+    </ConnectedRouter>
   </Provider>,
   document.getElementById('root')
 );

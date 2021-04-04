@@ -1,14 +1,10 @@
-.artists-list-component {
-  padding-top: 30px;
-}
-
-.artists-list-component .form-group {
+.artist-albums-list-component .form-group {
   margin-bottom: 30px;
 }
 
-.artist-info {
+.album-info {
   width: 230px;
-  height: 300px;
+  height: 330px;
   margin: auto;
   box-shadow: 0 0 15px -3px #343a40;
 }
@@ -24,9 +20,9 @@
   height: inherit;
 }
 
-.name-description-section {
+.album-description-section {
   width: inherit;
-  height: 100px;
+  height: 130px;
   background-color: white;
   padding: 10px;
 }
@@ -40,13 +36,26 @@
   padding-left: 10px;
 }
 
-.artist-name {
+.album-name {
   color: darkslategray;
   font-size: 20px;
   font-weight: 600;
+  display: block;
+  margin: 0;
+  height: 30px;
+  overflow: hidden;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.artist-followers {
+.artists-names {
+  margin-bottom: 20px;
+}
+
+.artists-names,
+.release-date,
+.number-of-tracks {
   color: lightslategray;
   font-size: 10px;
 }
@@ -60,4 +69,18 @@
   height: 70px;
   font-size: 25px !important;
   border-radius: 0.75rem !important;
+}
+
+.album-section-title {
+  margin-bottom: 20px;
+}
+
+.artist-title {
+  font-size: 35px;
+  color: dimgray;
+}
+
+.album-label {
+  font-size: 17px;
+  color: gray;
 }

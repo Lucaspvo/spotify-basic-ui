@@ -28,7 +28,7 @@ class Auth extends React.Component {
   }
 
   render() {
-    return <Redirect to={'/search'}/>;
+    return <Redirect to={'/search/artists'}/>;
   }
 }
 

@@ -12,6 +12,8 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "bootstrap": "^4.6.0",
+    "connected-react-router": "^6.9.1",
+    "history": "^4.10.1",
     "jquery": "^3.6.0",
     "lodash": "^4.17.21",
     "popper.js": "^1.16.1",
@@ -23,6 +25,7 @@
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
+    "react-star-ratings": "^2.3.0",
     "redux": "^4.0.5",
     "web-vitals": "^1.0.1"
   },

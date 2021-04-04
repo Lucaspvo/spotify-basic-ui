@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import auth from './reducers/auth-reducer.js';
+import { connectRouter } from 'connected-react-router';
 
 const navTitle = (state = 'Login', action) => {
   if (action.type === 'CHANGE_TITLE') {
@@ -9,7 +10,8 @@ const navTitle = (state = 'Login', action) => {
   return state;
 };
 
-export default combineReducers({
+export default (history) => combineReducers({
+  router: connectRouter(history),
   auth,
   navTitle,
-});
+})
