@@ -7,24 +7,38 @@ import Button from 'react-bootstrap/Button';
 import queryString from "query-string";
 import { connect } from 'react-redux';
 import Spinner from "react-bootstrap/Spinner";
+import {saveArtistsState} from "../../actions/artists";
 
 function mapStateToProps(state) {
   return {
     token: state.auth.token,
+    state: state.artists,
   };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    saveArtistsState: data => dispatch(saveArtistsState(data)),
+  }
 }
 
 class ArtistsList extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      prevArtistsList: props.artists.items,
-      artistsList: props.artists.items,
-      offset: props.artists.offset + props.artists.limit,
-      limit: props.artists.limit,
-      total: props.artists.total,
-      loading: false,
-    };
+    if (!props.state) {
+      this.state = {
+        prevArtistsList: props.artists.items,
+        artistsList: props.artists.items,
+        offset: props.artists.offset + props.artists.limit,
+        limit: props.artists.limit,
+        total: props.artists.total,
+        loading: false,
+      };
+    } else {
+      this.state = {
+        ...props.state,
+      };
+    }
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -34,6 +48,15 @@ class ArtistsList extends React.Component {
     }
 
     if (!isEqual(nextProps.artists.items, prevState.prevArtistsList)) {
+      nextProps.saveArtistsState({
+        ...nextProps.state,
+        prevArtistsList: nextProps.artists.items,
+        artistsList: nextProps.artists.items,
+        offset: nextProps.artists.offset + nextProps.artists.limit,
+        limit: nextProps.artists.limit,
+        total: nextProps.artists.total,
+      });
+
       return {
         prevArtistsList: nextProps.artists.items,
         artistsList: nextProps.artists.items,
@@ -85,7 +108,7 @@ class ArtistsList extends React.Component {
 
     if (response.ok) {
       const json = await response.json();
-      this.setState({
+      this.saveState({
         artistsList: [...this.state.artistsList.concat(json.artists.items)],
         limit: json.artists.limit,
         offset: this.state.offset + json.artists.offset,
@@ -96,6 +119,15 @@ class ArtistsList extends React.Component {
     }
   }
 
+  saveState(newState, callback = null) {
+    this.props.saveArtistsState({
+      ...this.state,
+      ...newState,
+    });
+
+    this.setState(newState, callback);
+  }
+
   render() {
     let content;
     let button;
@@ -103,7 +135,7 @@ class ArtistsList extends React.Component {
     if (isArray(this.state.artistsList) && this.state.artistsList.length > 0) {
       content = this.state.artistsList.map((artist, index) => {
         return (
-          <div className="form-group col-md-3" key={index}>
+          <div className="form-group col-lg-3" key={index}>
             <div className="artist-info">
               <a
                 onClick={(event) => {
@@ -115,13 +147,12 @@ class ArtistsList extends React.Component {
                 <div className="image-section" style={this.getInlineStylingBackgroundImage(artist)}/>
 
                 <div className="name-description-section">
-                  <label className="artist-name">
+                  <span className="artist-name" title={artist.name}>
                     { artist.name }
-                  </label>
-                  <br/>
-                  <label className="artist-followers">
+                  </span>
+                  <span className="artist-followers">
                     { `${artist.followers.total.toLocaleString()} followers` }
-                  </label>
+                  </span>
                 </div>
               </a>
 
@@ -157,10 +188,12 @@ class ArtistsList extends React.Component {
 
       button = (
         <div className="row">
-          <div className="load-artists-btn-wrapper col-md-12">
+          <div className="col-lg-4"/>
+
+          <div className="load-artists-btn-wrapper col-lg-4">
             <Button
               onClick={() => {
-                this.setState({
+                this.saveState({
                   loading: true,
                 }, this.loadMoreArtists);
               }}
@@ -171,6 +204,8 @@ class ArtistsList extends React.Component {
               { buttonLabel }
             </Button>
           </div>
+
+          <div className="col-lg-4"/>
         </div>
       );
     }
@@ -187,4 +222,4 @@ class ArtistsList extends React.Component {
   }
 }
 
-export default withRouter(connect(mapStateToProps)(ArtistsList));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ArtistsList));

@@ -2,10 +2,19 @@
   background-color: #282c34;
   height: 50px;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  align-items: center;
+  justify-content: space-between;
   font-size: 20px;
   color: white;
   box-shadow: 0px 1px 10px #282c34;
   padding-left: 15px;
+  padding-right: 15px;
+}
+
+.logout-icon {
+  font-size: 30px;
+}
+
+.logout-icon:hover {
+  cursor: pointer;
 }

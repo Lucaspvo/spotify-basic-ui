@@ -4,3 +4,9 @@ export function validAuthorization(data) {
     payload: data,
   };
 }
+
+export function logOut() {
+  return {
+    type: 'USER_LOG_OUT',
+  };
+}

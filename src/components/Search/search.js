@@ -8,16 +8,19 @@ import SearchTextInput from './search-text-input.js';
 import ArtistsList from '../List/artists-list.js';
 import ArtistAlbumsList from '../List/artist-albums-list.js';
 import { changeNavTitle } from '../../actions/navTitle.js';
+import { saveSearchState } from '../../actions/search.js';
 
 function mapStateToProps(state) {
   return {
     token: state.auth.token,
+    state: state.search,
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     changeNavTitle: title => dispatch(changeNavTitle(title)),
+    saveSearchState: title => dispatch(saveSearchState(title)),
   }
 }
 
@@ -40,7 +43,7 @@ async function fetchArtistsFromSpotify(artist) {
   if (response.ok) {
     const artists = await response.json();
     if (artists.artists.items) {
-      this.setState({
+      this.saveState({
         artists: artists.artists,
         loading: false,
       });
@@ -53,18 +56,26 @@ async function fetchArtistsFromSpotify(artist) {
 class Search extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      searchInput: '',
-      artists: null,
-      artist: null,
-      loading: false,
-    };
+    if (!props.state) {
+      console.log('AQUI');
+      this.state = {
+        searchInput: '',
+        artists: null,
+        artist: null,
+        loading: false,
+      };
+    } else {
+      this.state = {
+        ...props.state,
+      };
+    }
 
     this.fetchArtists = debounce(fetchArtistsFromSpotify.bind(this), 1000);
     props.changeNavTitle('Search Artist');
   }
 
   static getDerivedStateFromProps(nextProps) {
+    console.log(nextProps);
     if (!nextProps.token) {
       nextProps.history.push('/login');
     }
@@ -73,7 +84,7 @@ class Search extends React.Component {
   }
 
   getSearchInputWrapperClasses() {
-    const classes = ['col-md-6'];
+    const classes = ['col-lg-6'];
     if (!this.state.searchInput) {
       classes.push('my-auto');
     }
@@ -101,7 +112,7 @@ class Search extends React.Component {
 
   onChange(event) {
     if (event.target.value) {
-      this.setState(
+      this.saveState(
         {
           searchInput: event.target.value,
           loading: true,
@@ -109,14 +120,14 @@ class Search extends React.Component {
       () => this.fetchArtists(event.target.value)
       );
     } else {
-      this.setState({
-        searchInput: null,
+      this.saveState({
+        searchInput: '',
       });
     }
   }
 
   redirectToArtistAlbums(artist) {
-    this.setState(
+    this.saveState(
     {
         artist,
       },
@@ -124,6 +135,15 @@ class Search extends React.Component {
         `/search/${artist.name.toLowerCase().replace(' ', '_')}/albums`
       )
     );
+  }
+
+  saveState(newState, callback = null) {
+    this.props.saveSearchState({
+      ...this.state,
+      ...newState,
+    });
+
+    this.setState(newState, callback);
   }
 
   render() {
@@ -143,7 +163,7 @@ class Search extends React.Component {
         <Switch>
           <Route path={'/search/artists'}>
             <div className={this.getSearchInputRowClasses()}>
-              <div className="col-md-3"/>
+              <div className="col-lg-3"/>
 
               <div className={this.getSearchInputWrapperClasses()}>
                 <SearchTextInput
@@ -153,7 +173,7 @@ class Search extends React.Component {
                 />
               </div>
 
-              <div className="col-md-3"/>
+              <div className="col-lg-3"/>
             </div>
 
             { artistsList }

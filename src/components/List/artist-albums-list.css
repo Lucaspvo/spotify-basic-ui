@@ -85,12 +85,12 @@
   font-size: 10px;
 }
 
-.load-artists-btn-wrapper {
+.load-artist-albums-btn-wrapper {
   text-align: center;
 }
 
-.load-artists-btn {
-  width: 450px;
+.load-artist-albums-btn {
+  width: inherit;
   height: 70px;
   font-size: 25px !important;
   border-radius: 0.75rem !important;

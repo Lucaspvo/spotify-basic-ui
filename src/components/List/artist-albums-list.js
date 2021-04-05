@@ -7,30 +7,39 @@ import { withRouter} from "react-router";
 import './artist-albums-list.css';
 import {changeNavTitle} from "../../actions/navTitle";
 import Spinner from "react-bootstrap/Spinner";
-
-function mapDispatchToProps(dispatch) {
-  return {
-    changeNavTitle: title => dispatch(changeNavTitle(title)),
-  }
-}
+import { saveArtistAlbumsState } from "../../actions/artistAlbums.js";
 
 function mapStateToProps(state) {
   return {
     token: state.auth.token,
-  }
+    state: state.artistAlbums,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    changeNavTitle: title => dispatch(changeNavTitle(title)),
+    saveArtistAlbumsState: data => dispatch(saveArtistAlbumsState(data)),
+  };
 }
 
 class ArtistAlbumsList extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      albumsList: null,
-      offset: null,
-      limit: null,
-      total: null,
-      loading: false,
-    };
+    if (!props.state) {
+      this.state = {
+        albumsList: null,
+        offset: null,
+        limit: null,
+        total: null,
+        loading: false,
+      };
+    } else {
+      this.state = {
+        ...props.state,
+      };
+    }
   }
 
   static getDerivedStateFromProps(nextProps) {
@@ -60,7 +69,7 @@ class ArtistAlbumsList extends React.Component {
     if (response.ok) {
       const json = await response.json();
 
-      this.setState({
+      this.saveState({
         albumsList: json.items,
         offset: json.offset + json.limit,
         limit: json.limit,
@@ -89,7 +98,7 @@ class ArtistAlbumsList extends React.Component {
 
     if (response.ok) {
       const json = await response.json();
-      this.setState({
+      this.saveState({
         albumsList: [...this.state.albumsList.concat(json.items)],
         limit: json.limit,
         offset: this.state.offset + json.offset,
@@ -119,6 +128,15 @@ class ArtistAlbumsList extends React.Component {
     return album.artists.map(artist => artist.name).join(', ');
   }
 
+  saveState(newState, callback = null) {
+    this.props.saveArtistAlbumsState({
+      ...this.state,
+      ...newState,
+    });
+
+    this.setState(newState, callback);
+  }
+
   render() {
     let content;
     let button;
@@ -126,18 +144,18 @@ class ArtistAlbumsList extends React.Component {
     if (isArray(this.state.albumsList) && this.state.albumsList.length > 0) {
       content = this.state.albumsList.map((album, index) => {
         return (
-          <div className="form-group col-md-3" key={index}>
+          <div className="form-group col-lg-3" key={index}>
             <div className="album-info">
               <div className="image-section" style={this.getInlineStylingBackgroundImage(album)}/>
 
               <div className="album-description-section">
-                <label className="album-name" title={album.name}>
+                <span className="album-name" title={album.name}>
                   { album.name }
-                </label>
+                </span>
 
-                <label className="artists-names" title={this.getArtistsIncludedOnAlbum(album)}>
+                <span className="artists-names" title={this.getArtistsIncludedOnAlbum(album)}>
                   { this.getArtistsIncludedOnAlbum(album) }
-                </label>
+                </span>
 
                 <div className="release-date">
                   { album.release_date }
@@ -148,7 +166,7 @@ class ArtistAlbumsList extends React.Component {
                 </div>
               </div>
 
-              <a href={album.external_urls.spotify} target="_blank">
+              <a href={album.external_urls.spotify} target="_blank" rel="noreferrer">
                 <div className="preview-album">
                   <span>
                     Preview on Spotify
@@ -171,27 +189,31 @@ class ArtistAlbumsList extends React.Component {
       let buttonLabel;
 
       if (!this.state.loading) {
-        buttonLabel = 'Load More Artists';
+        buttonLabel = 'Load More Albums';
       } else {
         buttonLabel = <Spinner animation="border" />;
       }
 
       button = (
         <div className="row">
-          <div className="load-artists-btn-wrapper col-md-12">
+          <div className="col-lg-4"/>
+
+          <div className="load-artist-albums-btn-wrapper col-lg-4">
             <Button
               onClick={() => {
-                this.setState({
+                this.saveState({
                   loading: true,
                 }, this.loadMoreArtists);
               }}
-              className="load-artists-btn"
+              className="load-artist-albums-btn"
               variant="dark"
               disabled={this.state.loading}
             >
               { buttonLabel }
             </Button>
           </div>
+
+          <div className="col-lg-4"/>
         </div>
       );
     }
@@ -200,10 +222,10 @@ class ArtistAlbumsList extends React.Component {
       return (
         <div className="artist-albums-list-component">
           <div className="album-section-title row">
-            <div className="col-md-12">
+            <div className="col-lg-12">
               <span className="artist-title">{this.props.artist.name}</span>
             </div>
-            <div className="col-md-12">
+            <div className="col-lg-12">
               <span className="album-label">Albums</span>
             </div>
           </div>
