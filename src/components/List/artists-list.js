@@ -138,7 +138,7 @@ class ArtistsList extends React.Component {
     if (isArray(this.state.artistsList) && this.state.artistsList.length > 0) {
       content = this.state.artistsList.map((artist, index) => {
         return (
-          <div className="form-group col-lg-3" key={index}>
+          <div className="form-group col-lg-3 col-md-4 col-sm-6" key={index}>
             <div className="artist-info">
               <a
                 onClick={(event) => {

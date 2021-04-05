@@ -151,7 +151,7 @@ class ArtistAlbumsList extends React.Component {
     if (isArray(this.state.albumsList) && this.state.albumsList.length > 0) {
       content = this.state.albumsList.map((album, index) => {
         return (
-          <div className="form-group col-lg-3" key={index}>
+          <div className="form-group col-lg-3 col-md-4 col-sm-6" key={index}>
             <div className="album-info">
               <div className="image-section" style={this.getInlineStylingBackgroundImage(album)}/>
 
