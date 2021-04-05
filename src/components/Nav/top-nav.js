@@ -9,6 +9,7 @@ import { withRouter } from 'react-router';
 const mapStateToProps = (state) => {
   return {
     title: state.navTitle,
+    token: state.auth.token,
   };
 };
 
@@ -25,15 +26,23 @@ class TopNav extends React.Component {
   }
 
   render() {
+    let logOutIcon;
+
+    if (this.props.token) {
+      logOutIcon = (
+        <div className="logout-icon">
+          <FontAwesomeIcon onClick={this.userLogOut.bind(this)} icon={faSignOutAlt} title="Logout" />
+        </div>
+      );
+    }
+
     return (
       <header className="app-header">
         <div>
           {`Spotify ${this.props.title}`}
         </div>
 
-        <div className="logout-icon">
-          <FontAwesomeIcon onClick={this.userLogOut.bind(this)} icon={faSignOutAlt} title="Logout" />
-        </div>
+        { logOutIcon }
       </header>
     );
   }
