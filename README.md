@@ -22,7 +22,7 @@ and run the follwoing command:\
 
 ## 4. Run Application
 
-`F.Y.I` this development server is running with self-signed certificate, so it might be necessary to allow the browser to access this page to continue to the application
+`F.Y.I` this development server is running with self-signed certificate, so it might be necessary to allow the browser to access the page to continue to the application
 
 To run the application run the following command from root directory:\
 `yarn start`
@@ -34,3 +34,5 @@ In case that is not the case you can click on this link [http://localhost:3000](
 ## 5. Tests
 
 To run the tests run `yarn test`.
+
+If prompt is presented to choose an option to run tests, choose option `a`.
