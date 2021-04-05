@@ -71,3 +71,11 @@
   font-size: 25px !important;
   border-radius: 0.75rem !important;
 }
+
+.no-data-found {
+  height: 75px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+}

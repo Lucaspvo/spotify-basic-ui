@@ -7,6 +7,7 @@ import Button from 'react-bootstrap/Button';
 import queryString from "query-string";
 import { connect } from 'react-redux';
 import Spinner from "react-bootstrap/Spinner";
+import Alert from "react-bootstrap/Alert";
 import {saveArtistsState} from "../../actions/artists";
 
 function mapStateToProps(state) {
@@ -131,6 +132,7 @@ class ArtistsList extends React.Component {
   render() {
     let content;
     let button;
+    let noDataFound;
 
     if (isArray(this.state.artistsList) && this.state.artistsList.length > 0) {
       content = this.state.artistsList.map((artist, index) => {
@@ -170,9 +172,17 @@ class ArtistsList extends React.Component {
         )
       });
     } else if (isArray(this.state.artistsList) && this.state.artistsList.length === 0) {
-      content = (
-        <div>
-          NO ARTISTS FOUND
+      noDataFound = (
+        <div className="row">
+          <div className="col-lg-2"/>
+
+          <div className="col-lg-8">
+            <Alert className="no-data-found" variant="secondary">
+              No artists found.
+            </Alert>
+          </div>
+
+          <div className="col-lg-2"/>
         </div>
       );
     }
@@ -215,6 +225,8 @@ class ArtistsList extends React.Component {
         <div className="row">
           { content }
         </div>
+
+        { noDataFound }
 
         { button }
       </div>

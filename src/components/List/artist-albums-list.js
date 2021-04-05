@@ -8,6 +8,7 @@ import './artist-albums-list.css';
 import {changeNavTitle} from "../../actions/navTitle";
 import Spinner from "react-bootstrap/Spinner";
 import { saveArtistAlbumsState } from "../../actions/artistAlbums.js";
+import Alert from "react-bootstrap/Alert";
 
 function mapStateToProps(state) {
   return {
@@ -140,6 +141,7 @@ class ArtistAlbumsList extends React.Component {
   render() {
     let content;
     let button;
+    let noDataFound;
 
     if (isArray(this.state.albumsList) && this.state.albumsList.length > 0) {
       content = this.state.albumsList.map((album, index) => {
@@ -178,9 +180,17 @@ class ArtistAlbumsList extends React.Component {
         )
       });
     } else if (isArray(this.state.albumsList) && this.state.albumsList.length === 0) {
-      content = (
-        <div>
-          NO ALBUMS FOUND
+      noDataFound = (
+        <div className="row">
+          <div className="col-lg-2"/>
+
+          <div className="col-lg-8">
+            <Alert className="no-data-found" variant="secondary">
+              No albums found.
+            </Alert>
+          </div>
+
+          <div className="col-lg-2"/>
         </div>
       );
     }
@@ -233,6 +243,8 @@ class ArtistAlbumsList extends React.Component {
           <div className="row">
             { content }
           </div>
+
+          { noDataFound }
 
           { button }
         </div>
