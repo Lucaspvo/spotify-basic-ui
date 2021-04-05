@@ -15,7 +15,7 @@ function mapStateToProps(state) {
 class Content extends React.Component {
   render() {
     const defaultRedirect = this.props.token ?
-      <Redirect from='/' to='/search/artist' /> :
+      <Redirect from='/' to='/search/artists' /> :
       <Redirect from='/' to='/login' />;
 
     return (

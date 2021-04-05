@@ -8,7 +8,8 @@ You can follow the steps from this site https://classic.yarnpkg.com/en/docs/inst
 
 ## 2. Clone project
 
-Go in any folder from your home directory and run one of the following command:\
+Go in any folder from your home directory and run one of the following command:
+
 `git clone https://github.com/Lucaspvo/spotify-basic-ui.git`\
 `git clone git@github.com:Lucaspvo/spotify-basic-ui.git`
 
@@ -21,9 +22,13 @@ and run the follwoing command:\
 
 ## 4. Run Application
 
+`F.Y.I` this development server is running with self-signed certificate, so it might be necessary to allow the browser to access this page to continue to the application
+
 To run the application run the following command from root directory:\
-`yarn start`\
-This command should redirect you to the localhost main page.\
+`yarn start`
+
+This command should redirect you to the localhost main page.
+
 In case that is not the case you can click on this link [http://localhost:3000](http://localhost:3000) to be redirected to the application.
 
 ## 5. Tests

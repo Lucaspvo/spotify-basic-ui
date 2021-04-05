@@ -56,6 +56,7 @@ async function fetchArtistsFromSpotify(artist) {
 class Search extends React.Component {
   constructor(props) {
     super(props);
+    console.log(props);
     if (!props.state) {
       this.state = {
         searchInput: '',
