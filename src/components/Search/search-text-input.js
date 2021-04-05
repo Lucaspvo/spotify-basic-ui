@@ -5,6 +5,7 @@ import Spinner from "react-bootstrap/Spinner";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSearch} from "@fortawesome/free-solid-svg-icons";
 import './search-text-input.css';
+import PropTypes from 'prop-types';
 
 class SearchTextInput extends React.Component {
   render() {
@@ -34,5 +35,11 @@ class SearchTextInput extends React.Component {
     );
   }
 }
+
+SearchTextInput.propTypes = {
+  searchInput: PropTypes.string,
+  onChange: PropTypes.func,
+  loading: PropTypes.bool,
+};
 
 export default SearchTextInput;

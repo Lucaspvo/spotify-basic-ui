@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import Spinner from "react-bootstrap/Spinner";
 import Alert from "react-bootstrap/Alert";
 import {saveArtistsState} from "../../actions/artists";
+import PropTypes from 'prop-types';
 
 function mapStateToProps(state) {
   return {
@@ -233,5 +234,11 @@ class ArtistsList extends React.Component {
     );
   }
 }
+
+ArtistsList.propTypes = {
+  query: PropTypes.string,
+  artists: PropTypes.object,
+  redirectToArtistAlbums: PropTypes.func,
+};
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ArtistsList));

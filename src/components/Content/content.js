@@ -19,7 +19,7 @@ class Content extends React.Component {
       <Redirect from='/' to='/login' />;
 
     return (
-      <div className="spotify-content-component">
+      <div className="spotify-content-component" data-testid="content">
         <Switch>
           <Route path={'/login'}>
             <Login/>

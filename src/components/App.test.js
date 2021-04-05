@@ -1,8 +1,22 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen } from '../test-utils';
 import App from './App';
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+describe('App', () => {
+  it('should render the root app element', () => {
+    render(<App />);
+    const rootElement = screen.getByTestId("root-app-element");
+    expect(rootElement).toBeInTheDocument();
+  });
+
+  it('should render child component top-nav', () => {
+    render(<App />);
+    const topNav = screen.getByTestId("top-nav");
+    expect(topNav).toBeInTheDocument();
+  });
+
+  it('should render child component content', () => {
+    render(<App />);
+    const content = screen.getByTestId("content");
+    expect(content).toBeInTheDocument();
+  });
 });

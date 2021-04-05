@@ -8,7 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 function App() {
   return (
     <Router>
-      <div id="app">
+      <div id="app" data-testid="root-app-element">
         <TopNav/>
         <Content/>
       </div>

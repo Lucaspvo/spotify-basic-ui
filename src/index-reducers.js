@@ -15,11 +15,12 @@ const appReducer = (history) => combineReducers({
   artistAlbums,
 });
 
-export default  history => (state, action) => {
+const rootReducer = history => (state, action) => {
   if (action.type === 'USER_LOG_OUT') {
-    console.log('AQUIIIIIIIIIIIIIIIIIIIIIIIIIIIIII');
     state = {};
   }
 
   return appReducer(history)(state, action);
-}
+};
+
+export default rootReducer;

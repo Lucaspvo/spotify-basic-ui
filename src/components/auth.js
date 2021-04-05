@@ -17,14 +17,21 @@ function mapDispatchToProps(dispatch) {
 }
 
 class Auth extends React.Component {
-  componentWillMount() {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
+  static getDerivedStateFromProps(nextProps) {
     const response = queryString.parse(window.location.hash);
     if (response.state === process.env.REACT_APP_STATE) {
-      this.props.userAuthorized({
+      nextProps.userAuthorized({
         token: response.access_token,
         token_type: response.token_type,
       });
     }
+
+    return null;
   }
 
   render() {

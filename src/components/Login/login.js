@@ -24,7 +24,7 @@ class Login extends React.Component {
 
   render() {
     return (
-      <div className="login-component">
+      <div className="login-component" data-testid="login">
         <LoginButton
           onClick={this.redirectUserToLoginAtSpotify}
           label="Login with Spotify"

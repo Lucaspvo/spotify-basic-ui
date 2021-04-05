@@ -57,7 +57,6 @@ class Search extends React.Component {
   constructor(props) {
     super(props);
     if (!props.state) {
-      console.log('AQUI');
       this.state = {
         searchInput: '',
         artists: null,
@@ -75,7 +74,6 @@ class Search extends React.Component {
   }
 
   static getDerivedStateFromProps(nextProps) {
-    console.log(nextProps);
     if (!nextProps.token) {
       nextProps.history.push('/login');
     }
@@ -159,7 +157,7 @@ class Search extends React.Component {
     }
 
     return (
-      <div className={this.getSearchComponentWrapperClasses()}>
+      <div className={this.getSearchComponentWrapperClasses()} data-testid="search-artists">
         <Switch>
           <Route path={'/search/artists'}>
             <div className={this.getSearchInputRowClasses()}>

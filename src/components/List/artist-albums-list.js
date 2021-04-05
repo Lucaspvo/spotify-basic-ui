@@ -9,6 +9,7 @@ import {changeNavTitle} from "../../actions/navTitle";
 import Spinner from "react-bootstrap/Spinner";
 import { saveArtistAlbumsState } from "../../actions/artistAlbums.js";
 import Alert from "react-bootstrap/Alert";
+import PropTypes from "prop-types";
 
 function mapStateToProps(state) {
   return {
@@ -138,6 +139,10 @@ class ArtistAlbumsList extends React.Component {
     this.setState(newState, callback);
   }
 
+  getTracksLabel(total_tracks) {
+    return total_tracks > 1 ? 'tracks' : 'track';
+  }
+
   render() {
     let content;
     let button;
@@ -164,7 +169,7 @@ class ArtistAlbumsList extends React.Component {
                 </div>
 
                 <div className="number-of-tracks">
-                  { `${album.total_tracks} tracks` }
+                  { `${album.total_tracks} ${this.getTracksLabel(album.total_tracks)}` }
                 </div>
               </div>
 
@@ -254,5 +259,9 @@ class ArtistAlbumsList extends React.Component {
     return '';
   }
 }
+
+ArtistAlbumsList.propTypes = {
+  artist: PropTypes.object,
+};
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ArtistAlbumsList));

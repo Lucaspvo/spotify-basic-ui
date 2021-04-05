@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import {faSignOutAlt} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import { logOut } from '../../actions/auth.js';
-import { withRouter } from 'react-router';
+import { withRouter } from 'react-router-dom';
 
 const mapStateToProps = (state) => {
   return {
@@ -30,15 +30,15 @@ class TopNav extends React.Component {
 
     if (this.props.token) {
       logOutIcon = (
-        <div className="logout-icon">
+        <div className="logout-icon" data-testid="logout-icon">
           <FontAwesomeIcon onClick={this.userLogOut.bind(this)} icon={faSignOutAlt} title="Logout" />
         </div>
       );
     }
 
     return (
-      <header className="app-header">
-        <div>
+      <header className="app-header" data-testid="top-nav">
+        <div data-testid="top-nav-title">
           {`Spotify ${this.props.title}`}
         </div>
 
