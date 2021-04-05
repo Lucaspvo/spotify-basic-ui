@@ -112,12 +112,15 @@ class ArtistsList extends React.Component {
       const json = await response.json();
       this.saveState({
         artistsList: [...this.state.artistsList.concat(json.artists.items)],
-        limit: json.artists.limit,
-        offset: this.state.offset + json.artists.offset,
+        offset: this.state.offset + this.state.limit,
         loading: false,
       });
     }  else if (response.status === 401) {
       this.props.history.push('/login');
+    } else {
+      this.saveState({
+        loading: false,
+      });
     }
   }
 

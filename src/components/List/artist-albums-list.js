@@ -102,12 +102,15 @@ class ArtistAlbumsList extends React.Component {
       const json = await response.json();
       this.saveState({
         albumsList: [...this.state.albumsList.concat(json.items)],
-        limit: json.limit,
-        offset: this.state.offset + json.offset,
+        offset: this.state.offset + this.state.limit,
         loading: false,
       });
     } else if (response.status === 401) {
       this.props.history.push('/login');
+    } else {
+      this.saveState({
+        loading: false,
+      });
     }
   }
 
